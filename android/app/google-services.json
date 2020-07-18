@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "168103710616",
+    "firebase_url": "https://shop-admin-179e9.firebaseio.com",
+    "project_id": "shop-admin-179e9",
+    "storage_bucket": "shop-admin-179e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168103710616:android:bfb2eb8482bb626f8225ed",
+        "android_client_info": {
+          "package_name": "seddikbraken.shopadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168103710616-t017nr16udmrgdcffhbijjse5aqdm3ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6LuY5LaUjQejjvKazvuQTiuL44RC9PUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168103710616-t017nr16udmrgdcffhbijjse5aqdm3ku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
