@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shopadmin/screens/add_product.dart';
 import '../db/category.dart';
 import '../db/brand.dart';
 
@@ -188,7 +189,10 @@ class _AdminState extends State<Admin> {
             ListTile(
               leading: Icon(Icons.add),
               title: Text("Add product"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddProduct()));
+              },
             ),
             Divider(),
             ListTile(

@@ -7,10 +7,9 @@ class CategoryService {
   void createCategory(String name) {
     var id = Uuid();
     String categoryId = id.v1();
-    if (categoryId == null)
-      _firestore
-          .collection('categories')
-          .document(categoryId)
-          .setData({'category': name});
+    _firestore
+        .collection('categories')
+        .document(categoryId)
+        .setData({'category': name});
   }
 }
