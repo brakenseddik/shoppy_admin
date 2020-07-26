@@ -12,11 +12,9 @@ class BrandService {
     _firestore.collection('brands').document(brandId).setData({'brand': name});
   }
 
-  Future<List> getBrands() {
-    Stream<QuerySnapshot> snapshots = _firestore.collection(ref).snapshots();
-    List brands;
-    snapshots.forEach((element) {
-      brands.insert(0, element.documents);
+  Future<List<DocumentSnapshot>> getBrands() {
+    return _firestore.collection(ref).getDocuments().then((snaps) {
+      return snaps.documents;
     });
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
+import '../db/category.dart';
+import '../db/brand.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -9,10 +12,35 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   TextEditingController ProductNameController;
+  List<DocumentSnapshot> brands = <DocumentSnapshot>[];
+
+  List<DocumentSnapshot> categories = <DocumentSnapshot>[];
+  List<DropdownMenuItem<String>> categoryDropdown =
+      <DropdownMenuItem<String>>[];
+  List<DropdownMenuItem<String>> brandsDropdown = <DropdownMenuItem<String>>[];
+  String _currentCategory;
+  String _currentBrand;
+
   Color white = Colors.white;
   Color black = Colors.black;
   Color grey = Colors.grey;
   GlobalKey<FormState> _globalKey = GlobalKey();
+
+  @override
+  void initState() {
+    categoryDropdown = getCategoriesDropDown();
+    super.initState();
+  }
+
+  List<DropdownMenuItem<String>> getCategoriesDropDown() {
+    List<DropdownMenuItem<String>> items = <DropdownMenuItem<String>>[];
+    for (DocumentSnapshot category in categories) {
+      items.add(DropdownMenuItem(
+        child: Text(category['brand']),
+      ));
+    }
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +129,16 @@ class _AddProductState extends State<AddProduct> {
                 controller: ProductNameController,
                 decoration: InputDecoration(
                   hintText: 'Product name',
+                  //helperText: 'Keep it short, this is just a demo.',
+                  labelText: 'Life story',
+                  prefixIcon: const Icon(
+                    Icons.person,
+                    color: Colors.green,
+                  ),
+                  prefixText: '',
+                  focusColor: Colors.yellowAccent,
+                  suffixText: 'FR',
+                  suffixStyle: const TextStyle(color: Colors.green),
                   border: OutlineInputBorder(
                       borderSide: new BorderSide(color: grey)),
                 ),
