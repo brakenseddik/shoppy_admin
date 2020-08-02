@@ -138,6 +138,9 @@ class _AddProductState extends State<AddProduct> {
                   prefixText: '',
                   focusColor: Colors.yellowAccent,
                   suffixText: 'FR',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
                   suffixStyle: const TextStyle(color: Colors.green),
                   border: OutlineInputBorder(
                       borderSide: new BorderSide(color: grey)),
