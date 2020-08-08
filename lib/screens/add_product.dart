@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import '../db/category.dart';
 import '../db/brand.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddProduct extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _AddProductState extends State<AddProduct> {
   BrandService _brandService = BrandService();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController productNameController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
   List<DocumentSnapshot> brands = <DocumentSnapshot>[];
   List<DocumentSnapshot> categories = <DocumentSnapshot>[];
   List<DropdownMenuItem<String>> categoriesDropDown =
@@ -198,7 +201,7 @@ class _AddProductState extends State<AddProduct> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextFormField(
-                  controller: productNameController,
+                  controller: quantityController,
                   decoration: InputDecoration(hintText: 'Quantity'),
                   keyboardType: TextInputType.numberWithOptions(),
                   validator: (value) {
@@ -316,7 +319,9 @@ class _AddProductState extends State<AddProduct> {
                 color: red,
                 textColor: white,
                 child: Text('add product'),
-                onPressed: () {},
+                onPressed: () {
+                  validateAndUpload();
+                },
               )
             ],
           ),
@@ -399,9 +404,11 @@ class _AddProductState extends State<AddProduct> {
         ),
       );
     } else {
-      return Padding(
-          padding: const EdgeInsets.fromLTRB(14, 40, 14, 40),
-          child: Image.file(_fileImage1));
+      return Image.file(
+        _fileImage1,
+        fit: BoxFit.fitWidth,
+        width: double.infinity,
+      );
     }
   }
 
@@ -415,9 +422,11 @@ class _AddProductState extends State<AddProduct> {
         ),
       );
     } else {
-      return Padding(
-          padding: const EdgeInsets.fromLTRB(14, 40, 14, 40),
-          child: Image.file(_fileImage2));
+      return Image.file(
+        _fileImage2,
+        fit: BoxFit.fitWidth,
+        width: double.infinity,
+      );
     }
   }
 
@@ -431,9 +440,49 @@ class _AddProductState extends State<AddProduct> {
         ),
       );
     } else {
-      return Padding(
-          padding: const EdgeInsets.fromLTRB(14, 40, 14, 40),
-          child: Image.file(_fileImage3));
+      return Image.file(
+        _fileImage3,
+        fit: BoxFit.fitWidth,
+        width: double.infinity,
+      );
+    }
+  }
+
+  void validateAndUpload() async {
+    if (_formKey.currentState.validate()) {
+      if (_fileImage1 != null && _fileImage2 != null && _fileImage3 != null) {
+        if (availableSizes.isEmpty) {
+          String imgUrl1;
+          String imgUrl2;
+          String imgUrl3;
+          final FirebaseStorage storage = FirebaseStorage.instance;
+          final String picture1 =
+              '1${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
+          StorageUploadTask task1 =
+              storage.ref().child(picture1).putFile(_fileImage1);
+          final String picture2 =
+              '2${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
+          StorageUploadTask task2 =
+              storage.ref().child(picture2).putFile(_fileImage2);
+          final String picture3 =
+              '3${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
+          StorageUploadTask task3 =
+              storage.ref().child(picture3).putFile(_fileImage3);
+          StorageTaskSnapshot snapshot1 =
+              await task1.onComplete.then((snapshot) => snapshot);
+          StorageTaskSnapshot snapshot2 =
+              await task2.onComplete.then((snapshot) => snapshot);
+          task3.onComplete.then((snapshot3) async {
+            imgUrl1 = await snapshot1.ref.getDownloadURL();
+            imgUrl2 = await snapshot2.ref.getDownloadURL();
+            imgUrl3 = await snapshot3.ref.getDownloadURL();
+          });
+        } else {
+          Fluttertoast.showToast(msg: 'select one size at least');
+        }
+      } else {
+        Fluttertoast.showToast(msg: 'all images should be provided');
+      }
     }
   }
 }
