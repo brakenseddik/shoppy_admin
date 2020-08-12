@@ -43,6 +43,8 @@ dev_dependencies:
   intl: ^0.15.7
   uuid:
   flutter_typeahead: ^1.8.7
+  provider:
+  charts_flutter: ^0.8.0
 
 
 # For information on the generic Dart part of this file, see the

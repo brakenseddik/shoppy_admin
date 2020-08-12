@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopadmin/screens/add_product.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import '../db/category.dart';
 import '../db/brand.dart';
 
@@ -190,8 +190,8 @@ class _AdminState extends State<Admin> {
               leading: Icon(Icons.add),
               title: Text("Add product"),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddProduct()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => AddProduct()));
               },
             ),
             Divider(),
@@ -226,7 +226,9 @@ class _AdminState extends State<Admin> {
             ListTile(
               leading: Icon(Icons.library_books),
               title: Text("brand list"),
-              onTap: () {},
+              onTap: () {
+                _brandService.getBrands();
+              },
             ),
             Divider(),
           ],
@@ -254,15 +256,11 @@ class _AdminState extends State<Admin> {
       actions: <Widget>[
         FlatButton(
             onPressed: () {
-              try {
-                if (categoryController.text != null) {
-                  _categoryService.createCategory(categoryController.text);
-                }
-                Fluttertoast.showToast(msg: 'category created');
-                Navigator.pop(context);
-              } catch (e) {
-                print(e.toString());
+              if (categoryController.text != null) {
+                _categoryService.createCategory(categoryController.text);
               }
+//          Fluttertoast.showToast(msg: 'category created');
+              Navigator.pop(context);
             },
             child: Text('ADD')),
         FlatButton(
@@ -283,7 +281,9 @@ class _AdminState extends State<Admin> {
         child: TextFormField(
           controller: brandController,
           validator: (value) {
-            if (value.isEmpty) return 'category cannot be empty';
+            if (value.isEmpty) {
+              return 'category cannot be empty';
+            }
           },
           decoration: InputDecoration(hintText: "add brand"),
         ),
@@ -294,7 +294,7 @@ class _AdminState extends State<Admin> {
               if (brandController.text != null) {
                 _brandService.createBrand(brandController.text);
               }
-              Fluttertoast.showToast(msg: 'brand added');
+//          Fluttertoast.showToast(msg: 'brand added');
               Navigator.pop(context);
             },
             child: Text('ADD')),
