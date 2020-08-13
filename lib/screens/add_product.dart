@@ -356,10 +356,6 @@ class _AddProductState extends State<AddProduct> {
                             value: selectedSizes.contains('XL'),
                             onChanged: (value) => changeSelectedSize('XL')),
                         Text('XL'),
-                        Checkbox(
-                            value: selectedSizes.contains('XXL'),
-                            onChanged: (value) => changeSelectedSize('XXL')),
-                        Text('XXL'),
                       ],
                     ),
 
@@ -418,7 +414,7 @@ class _AddProductState extends State<AddProduct> {
                     Row(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Text(
                             'Category: ',
                             style: TextStyle(color: red),
@@ -430,7 +426,7 @@ class _AddProductState extends State<AddProduct> {
                           value: _currentCategory,
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Text(
                             'Brand: ',
                             style: TextStyle(color: red),
